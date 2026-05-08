@@ -204,9 +204,9 @@ It isn't a guarantee. A passing score means the obvious controls are in place. I
 
 ## Where MLOps curricula could go further
 
-Most MLOps courses do an excellent job teaching the tools: DVC, MLflow, Feast, Kubernetes, Evidently, Fairlearn, Guardrails AI. What's usually left to students is the synthesis. Given these tools, what does a hardened pipeline actually look like? This benchmark is one possible answer.
+Most MLOps courses teach the tools well. DVC, MLflow, Feast, Kubernetes, Evidently, Fairlearn, Guardrails AI. What's usually left to students is the synthesis. Given these tools, what does a hardened pipeline actually look like? This benchmark is one possible answer.
 
-Two things that would help the next generation of MLOps engineers:
+Two things that would help:
 
 **Threat modeling early in the curriculum, not just in a security-focused module.** Security has to be designed in, not bolted on. Asking students to threat-model their pipeline at the start of a project changes what they build by the end of it.
 
@@ -218,10 +218,10 @@ The full benchmark checklist as a standalone Markdown file, plus reference imple
 
 Reference implementations included in the repo:
 
-- `reference/drift_detection.py` — KS / Chi-squared drift report
-- `reference/input_guard.py` — Pydantic strict schema + 18-pattern regex blocklist
-- `reference/output_guard.py` — canary token + system-prompt shingle leakage scan
-- `reference/redteam_runner.py` — CI regression gate harness
-- `reference/k8s/deployment.yaml` — hardened GKE manifest with non-root, read-only FS, dropped capabilities
+- `reference/drift_detection.py`: KS and Chi-squared drift report
+- `reference/input_guard.py`: Pydantic strict schema with an 18-pattern regex blocklist
+- `reference/output_guard.py`: canary token plus system-prompt shingle leakage scan
+- `reference/redteam_runner.py`: CI regression gate harness
+- `reference/k8s/deployment.yaml`: hardened GKE manifest. Non-root, read-only FS, dropped capabilities.
 
 If you score your own pipeline against this and find gaps in the framework, I'd like to hear about it.

@@ -7,13 +7,13 @@ at the right stage.
 
 ## The seven stages
 
-1. **Ingestion** — pulling data from sources (APIs, warehouses, change data capture)
-2. **Versioning** — DVC, Git LFS, or object-store snapshots of data and code
-3. **Training** — model fit, hyperparameter tuning, evaluation
-4. **Registry** — where artifacts live before deployment
-5. **Serving** — inference API, container, autoscaling
-6. **Monitoring** — drift, fairness, performance telemetry
-7. **LLM/Generative overlay** — prompt management, guardrails, RAG
+1. **Ingestion**: pulling data from sources (APIs, warehouses, change data capture)
+2. **Versioning**: DVC, Git LFS, or object-store snapshots of data and code
+3. **Training**: model fit, hyperparameter tuning, evaluation
+4. **Registry**: where artifacts live before deployment
+5. **Serving**: inference API, container, autoscaling
+6. **Monitoring**: drift, fairness, performance telemetry
+7. **LLM/Generative overlay**: prompt management, guardrails, RAG
 
 Stages 1–6 apply to every pipeline. Stage 7 is an overlay that adds new threats
 on top of the existing six.

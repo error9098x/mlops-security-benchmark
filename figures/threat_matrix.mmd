@@ -1,0 +1,33 @@
+---
+config:
+  layout: elk
+  theme: base
+  themeVariables:
+    fontFamily: '"Inter", "Helvetica Neue", Arial, sans-serif'
+    fontSize: 14px
+    primaryColor: '#f8fafc'
+    primaryTextColor: '#0f172a'
+    primaryBorderColor: '#334155'
+    lineColor: '#64748b'
+  flowchart:
+    nodeSpacing: 30
+    rankSpacing: 60
+---
+flowchart LR
+    I["1. Ingest"] --> I_T@{ shape: doc, label: "Data poisoning\nLabel flipping\nVector store poisoning" }
+    V["2. Version"] --> V_T@{ shape: doc, label: "Supply chain\ncompromise" }
+    T["3. Train"] --> T_T@{ shape: doc, label: "Model inversion\nMembership inference" }
+    R["4. Registry"] --> R_T@{ shape: doc, label: "Model file\ntampering" }
+    S["5. Serve"] --> S_T@{ shape: doc, label: "Adversarial inputs\nModel extraction" }
+    M["6. Monitor"] --> M_T@{ shape: doc, label: "Drift as cover\nfor attack" }
+    L["7. LLM"] --> L_T@{ shape: doc, label: "Prompt injection\nSensitive disclosure\nExcessive agency" }
+
+    I ~~~ V ~~~ T ~~~ R ~~~ S ~~~ M ~~~ L
+
+    classDef stage fill:#f8fafc,stroke:#334155,stroke-width:1.5px,color:#0f172a,rx:4,ry:4
+    classDef llmStage fill:#fef9c3,stroke:#a16207,stroke-width:1.5px,color:#422006,rx:4,ry:4
+    classDef threat fill:#fef2f2,stroke:#991b1b,stroke-width:1px,color:#450a0a
+
+    class I,V,T,R,S,M stage
+    class L llmStage
+    class I_T,V_T,T_T,R_T,S_T,M_T,L_T threat

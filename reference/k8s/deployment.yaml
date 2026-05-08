@@ -1,0 +1,78 @@
+# Reference GKE deployment manifest demonstrating the serving controls
+# from the benchmark checklist:
+#   - resource limits + readiness/liveness probes
+#   - non-root container user
+#   - read-only root filesystem
+#   - dropped Linux capabilities
+#   - HPA bound to CPU utilization
+#
+# Pair this with Workload Identity Federation in the GitHub Actions workflow
+# instead of a static GCP_SA_KEY secret.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-api
+  labels:
+    app: model-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-api
+  template:
+    metadata:
+      labels:
+        app: model-api
+    spec:
+      serviceAccountName: model-api-sa
+      containers:
+        - name: model-api
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: model-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: model-api
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60

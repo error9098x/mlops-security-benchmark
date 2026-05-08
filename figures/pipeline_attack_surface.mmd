@@ -1,0 +1,43 @@
+---
+config:
+  layout: elk
+  theme: base
+  themeVariables:
+    fontFamily: '"Inter", "Helvetica Neue", Arial, sans-serif'
+    fontSize: 15px
+    primaryColor: '#f8fafc'
+    primaryTextColor: '#0f172a'
+    primaryBorderColor: '#334155'
+    lineColor: '#64748b'
+    edgeLabelBackground: '#ffffff'
+  flowchart:
+    nodeSpacing: 50
+    rankSpacing: 70
+---
+flowchart LR
+    Sources@{ shape: cyl, label: "Data\nsources" } --> I["1. Ingestion"]
+    I --> V["2. Versioning"]
+    V --> T["3. Training"]
+    T --> R["4. Registry"]
+    R --> S["5. Serving"]
+    S --> M["6. Monitoring"]
+    M -. alerts .-> S
+    M -. retrain trigger .-> T
+    S --> G["7. LLM overlay<br/>Guardrails"]
+    G --> S
+
+    A@{ shape: bang, label: "Attacker" } -. data poisoning .-> Sources
+    A -. supply chain .-> V
+    A -. adversarial input .-> S
+    A -. model extraction .-> S
+    A -. prompt injection .-> G
+
+    classDef stage fill:#f8fafc,stroke:#334155,stroke-width:1.5px,color:#0f172a,rx:4,ry:4
+    classDef source fill:#eef2ff,stroke:#3730a3,stroke-width:1.5px,color:#1e1b4b
+    classDef llm fill:#fef9c3,stroke:#a16207,stroke-width:1.5px,color:#422006,rx:4,ry:4
+    classDef threat fill:#fee2e2,stroke:#991b1b,stroke-width:1.5px,color:#450a0a
+
+    class I,V,T,R,S,M stage
+    class Sources source
+    class G llm
+    class A threat
